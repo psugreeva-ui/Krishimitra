@@ -11,8 +11,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent
-HOST = "127.0.0.1"
-PORT = int(os.environ.get("KRISHIMITRA_PORT", "8001"))
+HOST = "0.0.0.0"
+PORT = int(os.environ.get("PORT", os.environ.get("KRISHIMITRA_PORT", "8001")))
 MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
 MAX_BODY_SIZE = 6 * 1024 * 1024
 MAX_PHOTO_SIZE = 4 * 1024 * 1024
@@ -114,15 +114,18 @@ class KrishiMitraHandler(SimpleHTTPRequestHandler):
         self._send_json(200, {"configured": True, "model": MODEL})
 
     def _is_trusted_origin(self):
-        allowed_hosts = {f"{HOST}:{PORT}", f"localhost:{PORT}"}
-        host = self.headers.get("Host", "")
-        if host not in allowed_hosts:
-            return False
-        origin = self.headers.get("Origin")
-        if not origin:
-            return True
-        parsed_origin = urllib.parse.urlsplit(origin)
-        return parsed_origin.scheme == "http" and parsed_origin.netloc == host
+    host = self.headers.get("Host", "")
+    origin = self.headers.get("Origin")
+
+    if not origin:
+        return True
+
+    parsed_origin = urllib.parse.urlsplit(origin)
+
+    return (
+        parsed_origin.scheme in ("http", "https")
+        and parsed_origin.netloc == host
+    )
 
     def _read_request(self):
         try:
