@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f7f1" />
+    <meta
+      name="description"
+      content="Talk to KrishiMitra, your friendly farming companion for practical crop, weather, and market guidance."
+    />
+    <title>KrishiMitra — Your farming companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar" aria-label="Chat options">
+        <a class="brand" href="#" aria-label="KrishiMitra home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 40 40" fill="none">
+              <rect width="40" height="40" rx="14" fill="#E8F3DE" />
+              <path d="M20 29V17" stroke="#367343" stroke-width="2.4" stroke-linecap="round" />
+              <path d="M20 20c-7.5 0-10-4.2-10-8 6.8 0 10 2.4 10 8Z" fill="#70A653" />
+              <path d="M20 24c7.5 0 10-4.2 10-8-6.8 0-10 2.4-10 8Z" fill="#4B8A4F" />
+              <path d="M14 30h12" stroke="#367343" stroke-width="2.2" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span class="brand-name">Krishi<span>Mitra</span></span>
+        </a>
+
+        <button class="new-chat-button" id="new-chat" type="button">
+          <span aria-hidden="true">＋</span> New conversation
+        </button>
+
+        <div class="sidebar-section history-section">
+          <p class="section-label">CHAT HISTORY <span>ON THIS DEVICE</span></p>
+          <div class="history-list" id="history-list"></div>
+          <p class="history-empty" id="history-empty">Your saved conversations will appear here.</p>
+        </div>
+
+        <div class="sidebar-note">
+          <span class="note-icon" aria-hidden="true">✳</span>
+          <div>
+            <strong>Rooted in your needs</strong>
+            <p>Simple, practical farming guidance—one question at a time.</p>
+          </div>
+        </div>
+
+        <div class="sidebar-footer">
+          <span class="footer-avatar" aria-hidden="true">KM</span>
+          <span class="account-copy"><strong>Using as guest</strong><small>Your chats stay on this device</small></span>
+          <button class="account-signin-button" id="open-signin" type="button">Sign in</button>
+        </div>
+      </aside>
+
+      <section class="chat-panel" aria-label="Chat with KrishiMitra">
+        <header class="topbar">
+          <div class="mobile-brand">
+            <span class="brand-mark small" aria-hidden="true">
+              <svg viewBox="0 0 40 40" fill="none">
+                <rect width="40" height="40" rx="14" fill="#E8F3DE" />
+                <path d="M20 29V17" stroke="#367343" stroke-width="2.4" stroke-linecap="round" />
+                <path d="M20 20c-7.5 0-10-4.2-10-8 6.8 0 10 2.4 10 8Z" fill="#70A653" />
+                <path d="M20 24c7.5 0 10-4.2 10-8-6.8 0-10 2.4-10 8Z" fill="#4B8A4F" />
+                <path d="M14 30h12" stroke="#367343" stroke-width="2.2" stroke-linecap="round" />
+              </svg>
+            </span>
+            <span class="brand-name">Krishi<span>Mitra</span></span>
+          </div>
+          <div class="assistant-presence">
+            <span class="presence-dot" id="presence-dot"></span>
+            <span id="assistant-status" aria-live="polite">Checking Gemini…</span>
+          </div>
+          <button class="mobile-history-button" id="mobile-history-button" type="button" aria-label="Open chat history" title="Chat history">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M5 5h11M5 10h11M5 15h11" />
+              <circle cx="2.5" cy="5" r=".7" fill="currentColor" />
+              <circle cx="2.5" cy="10" r=".7" fill="currentColor" />
+              <circle cx="2.5" cy="15" r=".7" fill="currentColor" />
+            </svg>
+          </button>
+          <button class="location-button" id="location-button" type="button" aria-label="Use my location">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M16 8.3c0 4.1-6 8.7-6 8.7S4 12.4 4 8.3a6 6 0 1 1 12 0Z" />
+              <circle cx="10" cy="8" r="2" />
+            </svg>
+            <span>Use my location</span>
+          </button>
+          <label class="sr-only" for="language-select">Voice language preference</label>
+          <span class="language-control">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <circle cx="10" cy="10" r="7" />
+              <path d="M3.5 10h13M10 3c1.8 1.9 2.6 4.2 2.6 7s-.8 5.1-2.6 7c-1.8-1.9-2.6-4.2-2.6-7S8.2 4.9 10 3Z" />
+            </svg>
+            <select id="language-select" aria-label="Voice language preference">
+              <option value="en-IN">English</option>
+              <option value="hi-IN">हिन्दी · Hindi</option>
+              <option value="bn-IN">বাংলা · Bengali</option>
+              <option value="gu-IN">ગુજરાતી · Gujarati</option>
+              <option value="kn-IN">ಕನ್ನಡ · Kannada</option>
+              <option value="ml-IN">മലയാളം · Malayalam</option>
+              <option value="mr-IN">मराठी · Marathi</option>
+              <option value="or-IN">ଓଡ଼ିଆ · Odia</option>
+              <option value="pa-IN">ਪੰਜਾਬੀ · Punjabi</option>
+              <option value="ta-IN">தமிழ் · Tamil</option>
+              <option value="te-IN">తెలుగు · Telugu</option>
+              <option value="ur-IN">اردو · Urdu</option>
+            </select>
+          </span>
+        </header>
+
+        <div class="conversation" id="conversation" aria-live="polite">
+          <div class="welcome-content" id="welcome-content">
+            <div class="welcome-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" fill="none">
+                <rect width="64" height="64" rx="22" fill="#E8F3DE" />
+                <path d="M32 46V27" stroke="#367343" stroke-width="3" stroke-linecap="round" />
+                <path d="M32 32c-11 0-15-6.2-15-12 10 0 15 3.6 15 12Z" fill="#70A653" />
+                <path d="M32 38c11 0 15-6.2 15-12-10 0-15 3.6-15 12Z" fill="#4B8A4F" />
+                <path d="M24 47h16" stroke="#367343" stroke-width="3" stroke-linecap="round" />
+              </svg>
+            </div>
+            <p class="eyebrow">YOUR FARMING COMPANION</p>
+            <h1>Good morning, farmer <span class="sun" aria-hidden="true">☀</span></h1>
+            <p class="welcome-copy">
+              I’m <strong>KrishiMitra</strong>. Ask me anything about your crops, soil, weather, or
+              the next steps for your farm.
+            </p>
+
+            <div class="suggestion-grid" aria-label="Suggested questions">
+              <button class="suggestion-card" type="button" data-prompt="How do I care for my crops this season?">
+                <span class="suggestion-icon crop-icon" aria-hidden="true">♧</span>
+                <span><strong>Crop care</strong><small>Keep your crops healthy</small></span>
+                <span class="suggestion-arrow" aria-hidden="true">↗</span>
+              </button>
+              <button class="suggestion-card" type="button" data-prompt="How can I improve my soil health?">
+                <span class="suggestion-icon soil-icon" aria-hidden="true">⌁</span>
+                <span><strong>Soil health</strong><small>Build richer, healthier soil</small></span>
+                <span class="suggestion-arrow" aria-hidden="true">↗</span>
+              </button>
+              <button class="suggestion-card" type="button" data-prompt="What should I know about watering my crops?">
+                <span class="suggestion-icon water-icon" aria-hidden="true">♧</span>
+                <span><strong>Watering advice</strong><small>Make every drop count</small></span>
+                <span class="suggestion-arrow" aria-hidden="true">↗</span>
+              </button>
+              <button class="suggestion-card" type="button" data-prompt="How can I spot pests on my crops?">
+                <span class="suggestion-icon pest-icon" aria-hidden="true">✿</span>
+                <span><strong>Pest problems</strong><small>Protect your plants early</small></span>
+                <span class="suggestion-arrow" aria-hidden="true">↗</span>
+              </button>
+            </div>
+            <p class="welcome-footnote"><span aria-hidden="true">✳</span> Practical answers, made for the people who grow our food.</p>
+          </div>
+          <div class="message-list" id="message-list"></div>
+        </div>
+
+        <div class="composer-wrap">
+          <div class="location-status" id="setup-banner" role="status" hidden></div>
+          <div class="location-status" id="location-status" role="status" hidden></div>
+          <div class="location-status" id="feature-status" role="status" hidden></div>
+          <form class="composer" id="chat-form">
+            <div class="photo-preview" id="photo-preview" hidden>
+              <img id="photo-thumbnail" alt="Photo ready to attach to your message" />
+              <span>Photo attached <small>Sent to Gemini only when you submit</small></span>
+              <button class="remove-photo" id="remove-photo" type="button" aria-label="Remove attached photo">×</button>
+            </div>
+            <label class="sr-only" for="message-input">Your farming question</label>
+            <textarea
+              id="message-input"
+              rows="1"
+              maxlength="1000"
+              placeholder="Ask anything about your farm..."
+              autocomplete="off"
+            ></textarea>
+            <div class="composer-actions">
+              <span class="composer-hint"><span class="sparkle" aria-hidden="true">✳</span> Ask in your own words</span>
+              <div class="action-buttons">
+                <button class="icon-button voice-button" id="voice-button" type="button" aria-label="Speak your question" title="Speak your question">
+                  <svg viewBox="0 0 20 20" aria-hidden="true">
+                    <rect x="7" y="3" width="6" height="10" rx="3" />
+                    <path d="M4.5 9.5a5.5 5.5 0 0 0 11 0M10 15v2.5M7.5 17.5h5" />
+                  </svg>
+                </button>
+                <button class="icon-button speak-toggle" id="speak-toggle" type="button" aria-pressed="false" aria-label="Read answers aloud" title="Read answers aloud">
+                  <svg viewBox="0 0 20 20" aria-hidden="true">
+                    <path d="M3.5 8v4h3l4 3.5v-11l-4 3.5h-3Z" />
+                    <path d="M13 7a4 4 0 0 1 0 6M15 4.5a7.5 7.5 0 0 1 0 11" />
+                  </svg>
+                </button>
+                <button class="icon-button attach-button" id="camera-button" type="button" aria-label="Open camera" title="Open camera">
+                  <svg viewBox="0 0 20 20" aria-hidden="true">
+                    <path d="M3 6.5h3l1.3-2h5.4l1.3 2h3v9H3v-9Z" />
+                    <circle cx="10" cy="10.8" r="3" />
+                  </svg>
+                </button>
+                <button class="send-button" id="send-button" type="submit" aria-label="Send message" disabled>
+                  <svg viewBox="0 0 20 20" aria-hidden="true">
+                    <path d="M10 15V5M6 9l4-4 4 4" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </form>
+          <p class="disclaimer">Submitted questions and photos are sent to Google Gemini. If enabled, your approximate location is also shared. Live local prices are not connected. For urgent crop issues, consult your local agriculture expert.</p>
+        </div>
+      </section>
+    </main>
+    <dialog class="signin-dialog" id="signin-dialog" aria-labelledby="signin-title">
+      <div class="signin-card">
+        <span class="signin-brand-mark" aria-hidden="true">KM</span>
+        <p class="signin-eyebrow">WELCOME TO KRISHIMITRA</p>
+        <h2 id="signin-title">A little help for every growing season</h2>
+        <p class="signin-copy">Sign in to your account, or continue as a guest. Your chat history stays in this browser.</p>
+        <button class="google-signin-button" type="button" disabled>
+          <span class="google-mark" aria-hidden="true">G</span>
+          Sign in with Google
+        </button>
+        <p class="signin-setup-note" role="status">Google sign-in needs a Google OAuth Web client ID before it can be enabled.</p>
+        <div class="signin-divider"><span>OR</span></div>
+        <button class="guest-button" id="continue-as-guest" type="button">Continue as guest</button>
+        <p class="signin-privacy">No password is requested or stored by KrishiMitra.</p>
+      </div>
+    </dialog>
+    <dialog class="camera-dialog" id="camera-dialog" aria-labelledby="camera-title">
+      <div class="camera-header">
+        <div>
+          <h2 id="camera-title">Take a crop photo</h2>
+          <p>Your camera stays off until you allow access.</p>
+        </div>
+        <button class="camera-close" id="camera-close" type="button" aria-label="Close camera">×</button>
+      </div>
+      <video id="camera-video" autoplay playsinline muted></video>
+      <canvas id="camera-canvas" hidden></canvas>
+      <p class="camera-status" id="camera-status" role="status">Allow camera access to start the live preview.</p>
+      <div class="camera-actions">
+        <button class="camera-cancel" id="camera-cancel" type="button">Cancel</button>
+        <button class="camera-capture" id="camera-capture" type="button" disabled>Capture photo</button>
+      </div>
+    </dialog>
+    <dialog class="camera-dialog setup-dialog" id="setup-dialog" aria-labelledby="setup-title">
+      <form id="setup-form">
+        <div class="camera-header">
+          <div>
+            <h2 id="setup-title">Connect Gemini</h2>
+            <p>Your key is sent to this computer’s local server and held in memory only. It is not saved in this website or sent to Gemini until you submit a chat question.</p>
+          </div>
+          <button class="camera-close" id="setup-close" type="button" aria-label="Close setup">×</button>
+        </div>
+        <label class="setup-label" for="api-key-input">Gemini API key</label>
+        <input
+          class="setup-input"
+          id="api-key-input"
+          name="apiKey"
+          type="password"
+          minlength="20"
+          maxlength="256"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          required
+        />
+        <p class="camera-status" id="setup-status" role="status">Get a key from Google AI Studio. Don’t share it with anyone.</p>
+        <div class="camera-actions">
+          <button class="camera-cancel" id="setup-cancel" type="button">Cancel</button>
+          <button class="camera-capture" id="setup-submit" type="submit">Connect Gemini</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog class="camera-dialog history-dialog" id="history-dialog" aria-labelledby="history-title">
+      <div class="camera-header">
+        <div>
+          <h2 id="history-title">Chat history</h2>
+          <p>Your saved conversations are stored only in this browser.</p>
+        </div>
+        <button class="camera-close" id="history-close" type="button" aria-label="Close chat history">×</button>
+      </div>
+      <div class="history-list mobile-history-list" id="mobile-history-list"></div>
+      <p class="history-empty" id="mobile-history-empty">Your saved conversations will appear here.</p>
+    </dialog>
+    <script src="app.js"></script>
+  </body>
+</html>
